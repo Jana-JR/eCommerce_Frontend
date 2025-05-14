@@ -20,7 +20,7 @@ const Products = () => {
       await axios.post(
         "/cart",
         {
-          user: user._id, 
+          user: user.user._id, 
           product: product._id, 
           quantity: 1,
         },
