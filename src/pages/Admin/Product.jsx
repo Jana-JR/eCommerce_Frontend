@@ -38,7 +38,7 @@ export default function ProductList() {
       toast.error("Failed to delete product");
     }
   };
-
+  
 
   const columns = [
     { field: "_id", headerName: "ID", flex: 1, headerClassName: "super-app-theme--header" },
@@ -47,88 +47,86 @@ export default function ProductList() {
     { field: "price", headerName: "Price", type: "number", flex: 1, headerClassName: "super-app-theme--header" },
     { field: "discountPercentage", headerName: "Discount (%)", type: "number", flex: 1, headerClassName: "super-app-theme--header" },
     {
-      field: "brand",
-      headerName: "Brand",
-      flex: 1,
-      valueGetter: (params) => params.row.brand?.name || "N/A",
-    },
+  field: "brand",
+  headerName: "Brand",
+  flex: 1,
+  valueGetter: (params) => params.row.brand?.name || "N/A",
+},
 
-    }
-    ,
-{ field: "stockQuantity", headerName: "Stock", type: "number", flex: 1 },
-{
-  field: "image",
-    headerName: "Image",
+    { field: "stockQuantity", headerName: "Stock", type: "number", flex: 1 },
+    {
+      field: "image",
+      headerName: "Image",
       flex: 1,
     },
-{
-  field: "actions",
-    headerName: "Actions",
+    {
+      field: "actions",
+      headerName: "Actions",
       flex: 1,
-        renderCell: (params) => (
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <Link
-              to={`/admin/editproducts/${params.row._id}`}
-              style={{ display: "inline-flex", textDecoration: "none" }}
-            >
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-                sx={{ minWidth: "36px", padding: "6px" }}
-              >
-                <EditIcon fontSize="small" />
-              </Button>
-            </Link>
-            <Button
-              variant="outlined"
-              color="error"
+      renderCell: (params) => (
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <Link 
+            to={`/admin/editproducts/${params.row._id}`} 
+            style={{ display: "inline-flex", textDecoration: "none" }}
+          >
+            <Button 
+              variant="outlined" 
+              color="primary" 
               size="small"
               sx={{ minWidth: "36px", padding: "6px" }}
-              onClick={() => deleteProduct(params.row._id)}
             >
-              <DeleteIcon fontSize="small" />
+              <EditIcon fontSize="small" />
             </Button>
-          </Box>
-        ),
+          </Link>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            sx={{ minWidth: "36px", padding: "6px" }}
+            onClick={() => deleteProduct(params.row._id)}
+          >
+            <DeleteIcon fontSize="small" />
+          </Button>
+        </Box>
+      ),
     }
     
     
   ];
+ 
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="flex flex-1">
+        <Sidebar />
+        <Box component="main" className="flex-1 p-6 overflow-auto bg-gray-50">
+          <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Typography variant="h5" fontWeight={600}>
+                Product List
+              </Typography>
+              <Link to="/admin/addproducts/">
+                <Button variant="contained" color="primary" startIcon={<AddIcon />}>
+                  Add Product
+                </Button>
+              </Link>
+            </Box>
+          </Paper>
 
-return (
-  <div className="flex flex-col min-h-screen">
-    <Navbar />
-    <div className="flex flex-1">
-      <Sidebar />
-      <Box component="main" className="flex-1 p-6 overflow-auto bg-gray-50">
-        <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5" fontWeight={600}>
-              Product List
-            </Typography>
-            <Link to="/admin/addproducts/">
-              <Button variant="contained" color="primary" startIcon={<AddIcon />}>
-                Add Product
-              </Button>
-            </Link>
-          </Box>
-        </Paper>
-
-        <Paper elevation={2} sx={{ p: 2 }}>
-          <DataGrid
-            rows={products}
-            columns={columns}
-            getRowId={(row) => row._id}
-            initialState={{ pagination: { paginationModel } }}
-            pageSizeOptions={[5, 10]}
-            slots={{ toolbar: GridToolbar }}
-            autoHeight
-
-          />
-        </Paper>
-      </Box>
+          <Paper elevation={2} sx={{ p: 2 }}>
+            <DataGrid
+              rows={products}
+              columns={columns}
+              getRowId={(row) => row._id}
+              initialState={{ pagination: { paginationModel } }}
+              pageSizeOptions={[5, 10]}
+              slots={{ toolbar: GridToolbar }}
+              autoHeight
+              
+            />
+          </Paper>
+        </Box>
+      </div>
     </div>
-  </div>
-);
+  );
 }
